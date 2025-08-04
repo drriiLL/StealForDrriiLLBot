@@ -1,6 +1,6 @@
 import os 
 
-
+#Функии поиска файлов в системе
 def search_one_word(user_text):
     founded_files = []
     other_dirs = []
@@ -41,8 +41,8 @@ def search_many_words(user_text):
     return founded_files
 
 
-
-def read_file(file_path):
+#Фунция прочтения файлов 
+def read_file_fu(file_path):
     try:
         ext = os.path.splitext(file_path)[1].lower()
         text_extensions = ['.txt', '.py', '.js', '.html', '.css', '.md', '.json', '.xml', '.csv']
@@ -55,4 +55,6 @@ def read_file(file_path):
     except Exception as e:
         print('Ошибка  чтения файла')
 
-print(search_many_words(['nude', 'main']))
+#Функия отправки файла в боте
+
+print(read_file_fu(r"C:\PythonVSCODE\venv\BotForStill\utils.py"))
