@@ -12,15 +12,7 @@ def search_one_word(user_text):
                 for word in user_text:
                     if word in file.lower():
                         full_path = os.path.join(root, file)
-                        founded_files.append(f"{file} -- {full_path} \n")   #возвращает только founded_files
-            #             found_in_this_dir = True
-            #             for i in dir:
-            #                 other_dirs.append(i)
-            # if found_in_this_dir:
-            #     for file in files:
-            #         is_target = any(word in file.lower() for word in user_text)
-            #         if not is_target:
-            #             other_files.append(file)
+                        founded_files.append(f"{file} -- {full_path} \n")
         except PermissionError:
             print("Недостаточно прав")
     
@@ -55,11 +47,6 @@ def read_file_fu(file_path):
     except Exception as e:
         print('Ошибка  чтения файла')
 
-#Функия отправки файла в боте
-
-# print(read_file_fu(r"C:\PythonVSCODE\venv\BotForStill\utils.py"))
-
-#Просмотрт содержимого в папке
 
 def show_files(user_text="", default_path=r'C:\\'):
     if user_text.strip():

