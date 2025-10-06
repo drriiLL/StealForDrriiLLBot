@@ -14,7 +14,7 @@ import os
 
 
 
-TOKEN  = '8072902328:AAGtU6kq0vRv5np8PnH_fgLKEBfl-zDuVks'
+TOKEN  = 'TOKEN'
 bot = Bot(TOKEN)
 dp = Dispatcher()
 CHAT_ID = "964584467"
